@@ -1,5 +1,7 @@
 package progkornybeadando;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -15,22 +17,38 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class FrameController {
+	
 	/**
-	 * Alapértelmezett függőleges pozicionálás.
+	 * A megkapott szöveget tartalmazza feldarabolva.
+	 */
+	protected ArrayList<String> splitSzoveg;
+	
+	/**
+	 * Kirajzolásnál hanyadik sornál járunk.
+	 */
+	protected int rows_id = 0;
+	
+	/**
+	 * A megkapott szöveget tartalmazza.
+	 */
+	protected String szoveg = null;
+	
+	/**
+	 * A megkapott szöveg függőleges pozicióját határozza meg a keretben.
 	 */
 	private String valign = "CENTER";
 	/**
-	 * Alapértelmezett vízszintes pozicionálás.
+	 * A megkapott szöveg vízszintes pozicióját határozza meg a keretben.
 	 */
 	private String halign = "CENTER";
 	/**
 	 * Keret magassága.
 	 */
-	static int height;
+	protected int height;
 	/**
 	 * Keret szélessége.
 	 */
-	static int width;
+	protected int width;
 	/**
 	 * Alapértelmezett keret jelölő értékek.
 	 * Balról jobbra: bal felső sarok, bal alsó sarok, jobb alsó sarok, jobb felső sarok
@@ -41,8 +59,6 @@ public class FrameController {
 	 * A logger példányosítása. 
 	 */
 	private static Logger logger = LoggerFactory.getLogger(FrameController.class);
-	
-	private Text text = null;
 	
 	/**
 	 * Függőleges enum értékek.
@@ -125,9 +141,9 @@ public class FrameController {
 	 * Eredményül egy formázott stringet add vissza.
 	 * @return Visszaad egy stringet ami meg van formázva.
 	 */
-	public String drawFrame(){
+	protected String drawFrame(){
 		StringBuilder tarolo = new StringBuilder();
-		int text_start = calculateRowStart(text.getStringHeightSize());
+		int text_start = calculateRowStart(getStringHeightSize());
 		for(int i=0;i<height;i++){
 			if(i==0){
 				for(int j=0;j<width;j++){
@@ -157,14 +173,14 @@ public class FrameController {
 				tarolo.append("\n");
 			}
 			else if(text_start == i){
-				for(int j=0;j<text.getStringHeightSize();j++){
-					String row = text.getNextRows();
-					int start_cols = calculateColStart(text.getStringWidthSize(row));					
+				for(int j=0;j<getStringHeightSize();j++){
+					String row = getNextRows();
+					int start_cols = calculateColStart(row.length());					
 					tarolo.append(FrameController.bal);
-					for(int k=0;k<FrameController.width-1;k++){
+					for(int k=0;k<width-1;k++){
 						if(start_cols == k){
 							tarolo.append(row);
-							k += text.getStringWidthSize(row);
+							k += row.length();
 						}else{
 							tarolo.append(" ");
 						}
@@ -172,10 +188,10 @@ public class FrameController {
 					tarolo.append(FrameController.jobb+"\n");
 					
 				}
-				i += (text.getStringHeightSize()-1);
+				i += (getStringHeightSize()-1);
 			}else{
 				tarolo.append(FrameController.bal);
-				for(int k=0;k<FrameController.width-2;k++){
+				for(int k=0;k<width-2;k++){
 					tarolo.append(" ");
 				}
 				tarolo.append(FrameController.jobb+"\n");
@@ -199,7 +215,7 @@ public class FrameController {
 	public static String shieldingFrame(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
 		logger.info("Árnyékos kerettel rajzolás");
 		FrameController keret = new FrameController(s, height, width,vAlignment, hAlignment,character);
-		return Shielding.shielding(keret.drawFrame());
+		return Shielding.shielding(keret.drawFrame(),width);
 	}
 
 	/**
@@ -277,10 +293,10 @@ public class FrameController {
 	}
 	
 	/**
-	 * Beállítja a felhasználó által megadott függőleges poziciót.
+	 * Beállítja a felhasználó által megadott függőleges poziciót, ha létezik a megadott pozició.
 	 * @param s a felhasználó által megadott függőleges pozició	      
 	 */
-	public void setTextVerticalAlign(String s){
+	protected void setTextVerticalAlign(String s){
 		if(isVerticalAlignment(s)){
 			valign = s;
 			logger.info("Sikeres függőleges szöveg pozició beállítás");
@@ -288,10 +304,10 @@ public class FrameController {
 			
 	}
 	/**
-	 * Beállítja a felhasználó által megadott vízszintes poziciót.
+	 * Beállítja a felhasználó által megadott vízszintes poziciót, ha létezik a megadott pozició.
 	 * @param s a felhasználó által megadott vízszintes pozició	      
 	 */
-	public void setTextHorizontalAlign(String s){
+	protected void setTextHorizontalAlign(String s){
 		if(isHorizontalAlignment(s)){
 			halign = s;
 			logger.info("Sikeres vízszintes szöveg pozició beállítás");
@@ -306,7 +322,7 @@ public class FrameController {
 	 * a szöveg hosszúsága
 	 * @return az adott sorban hanyadik karakternél kell kezdődnie a szövegnek	      
 	 */
-	public int calculateColStart(int textWidth){
+	protected int calculateColStart(int textWidth){
 		if(halign == "CENTER"){
 			return (width - textWidth)/2;
 		}
@@ -320,7 +336,7 @@ public class FrameController {
 	 * @param textHeight a felhasználó által megadott szöveg magassága
 	 * @return egy int-el tér vissza ami megadja, hogy hanyadik sorban kell elkezdeni kirajzolni a szöveget.     
 	 */
-	public int calculateRowStart(int textHeight){
+	protected int calculateRowStart(int textHeight){
 		
 		if(valign == "CENTER"){
 			return (height - textHeight)/2;
@@ -334,13 +350,13 @@ public class FrameController {
 	FrameController(String s, int height, int width){
 		setHeight(height);
 		setWidth(width);
-		text = new Text(s);
+		szoveg = s;
 	}
 	
 	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment){
 		setHeight(height);
 		setWidth(width);
-		text = new Text(s);
+		szoveg = s;
 		setTextVerticalAlign(vAlignment.name());
 		setTextHorizontalAlign(hAlignment.name());
 		
@@ -349,7 +365,7 @@ public class FrameController {
 	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
 		setHeight(height);
 		setWidth(width);
-		text = new Text(s);
+		szoveg = s;
 		setTextVerticalAlign(vAlignment.name());
 		setTextHorizontalAlign(hAlignment.name());
 		Shielding.setCharacter(character);
@@ -361,5 +377,38 @@ public class FrameController {
 	
 	public void setWidth(int width){
 		this.width = width;
+	}
+	
+	/**
+	 * Feldarabolja a felhasználó által megadott stringet.
+	 * @return visszatér egy ArrayListel amiben a feldarabolt szöveg szerepel.
+	 */
+	protected ArrayList<String> splitText(){
+		splitSzoveg = new ArrayList<String>();
+		String split[] = this.szoveg.split("\n");
+		for(String i : split){
+			splitSzoveg.add(i);
+		}
+		return splitSzoveg;
+	}
+	
+	/**
+	 * Visszaadja a string feldarabolt magasságát.
+	 * @return a feldrabolt string magassága
+	 */
+	public int getStringHeightSize(){
+		return splitText().size();
+	}
+	/**
+	 * Megkapjuk a következő sorát a szövegnek.
+	 * @return
+	 */
+	private String getNextRows(){
+		if(splitSzoveg == null){
+			this.splitText();
+		}
+		String res = splitSzoveg.get(rows_id).trim();
+		this.rows_id++;
+		return res;
 	}
 }
