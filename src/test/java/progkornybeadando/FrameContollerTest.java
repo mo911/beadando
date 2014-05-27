@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class FrameContollerTest {
-
+	/*
 	@Test
 	public void testKeretBeallitas() {
 		assertFalse(FrameController.setKeret("abcdefghjklmno"));
@@ -67,6 +67,14 @@ public class FrameContollerTest {
 		FrameController.setTextHorizontalAlign("CENTER");
 		FrameController.setTextVerticalAlign("CENTER");		
 		assertEquals(3, FrameController.calculateRowStart(4));
+	}*/
+	
+	@Test
+	public void testKeretDraw(){
+		String s = "+----------------------------+\n|                            |\n|                            |\n|       Ez itt a szoveg      |\n|      ez meg egy új sor     |\n|       ez meg egy újabb     |\n|       de mostmár elég      |\n|                            |\n|                            |\n+----------------------------+\n";
+		String szoveg = "Ez itt a szoveg\n ez meg egy új sor\nez meg egy újabb \n de mostmár elég";
+		assertEquals(s, FrameController.showFrame(szoveg, 10, 30));
 	}
+
 
 }

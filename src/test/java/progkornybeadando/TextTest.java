@@ -9,8 +9,7 @@ public class TextTest {
 	Text text;
 	@Before
 	public void beforeTest(){
-		text = new Text();
-		text.setString("Ez lesz a szöveg\namit tesztelni fogunk\n minden jóra");
+		text = new Text("Ez lesz a szöveg\namit tesztelni fogunk\n minden jóra");
 	}
 	
 	@Test
@@ -20,7 +19,7 @@ public class TextTest {
 	
 	@Test
 	public void test2() {
-		assertEquals(21,text.getStringWidthSize(text.getNextStringID(1)));
+		assertEquals(16,text.getStringWidthSize(text.getNextRows()));
 	}
 
 }

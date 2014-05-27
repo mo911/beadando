@@ -1,7 +1,7 @@
 package progkornybeadando;
 /**
  * Beállítja a keretre az árnyékolást.
- * Constructorban át kell adni egy Text objektumot, amire majd az árnyékolás kerülni fog.
+ * A statikus shielding metódusát meghívva elvégzi a megadott stringen az árnyékolást.
  * @author Ádám
  *
  */
@@ -12,18 +12,18 @@ public class Shielding {
 	static char character = '#';
 	
 	/**
-	 * Beállítja a keretre az árnyékot.
-	 * @param s a formázott keret szöveggel együtt.
-	 * @return a megkapott formázott string + az árnyék hozzá.
+	 * Beállítja a megkapott stringre az árnyékolást.
+	 * @param s egy String amire rá szeretnénk tenni az árnyékolást
+	 * @return Visszatér a paraméterben megkapott stringel és a hozzá fűzött árnyékolással.
 	 */
 	public static String shielding(String s){
 		StringBuilder tarolo = new StringBuilder();
-		Text newtext = new Text();
+		Text newtext = new Text(s);
 		int utolso_elem = 0;
-		newtext.setString(s);
 		for(int i=0;i<newtext.getStringHeightSize();i++){
-			tarolo.append(newtext.getNextStringID(i)+Shielding.getCharacter()+"\n");
-			utolso_elem = newtext.getNextStringID(i).length();
+			String row = newtext.getNextRows();
+			tarolo.append(row+Shielding.getCharacter()+"\n");
+			utolso_elem = row.length();
 		}
 		for(int j=0;j<2;j++){
 			utolso_elem -= 1;
@@ -37,7 +37,7 @@ public class Shielding {
 	}
 	
 	/**
-	 * Visszaadja a beállított árnyékkaraktert.
+	 * Visszaadja a beállított árnyékolókaraktert.
 	 * @return árnyékoló karakter
 	 */
 	static char getCharacter(){

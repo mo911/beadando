@@ -3,8 +3,14 @@ package progkornybeadando;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
- * Ez az osztály végzi el a szöveg pozicionálását és a kerethez tartozó egyébb 
- * műveleteket.
+ * Ez az osztály a megadott Stringgel különbőző módokon végez műveletet.
+ * Három statikus metódus van:
+ * <ul>
+ *   <li>1.) showFrame(...)</li>
+ *   <li>2.) frame(...)</li>
+ *   <li>3.) shieldingFrame(...)</li>
+ * </ul>
+ * Ezeket a metódusokat felhasználva lehet a szöveget formázni.
  * @author Ádám
  *
  */
@@ -12,11 +18,11 @@ public class FrameController {
 	/**
 	 * Alapértelmezett függőleges pozicionálás.
 	 */
-	static String valign = "CENTER";
+	private String valign = "CENTER";
 	/**
 	 * Alapértelmezett vízszintes pozicionálás.
 	 */
-	static String halign = "CENTER";
+	private String halign = "CENTER";
 	/**
 	 * Keret magassága.
 	 */
@@ -35,6 +41,8 @@ public class FrameController {
 	 * A logger példányosítása. 
 	 */
 	private static Logger logger = LoggerFactory.getLogger(FrameController.class);
+	
+	private Text text = null;
 	
 	/**
 	 * Függőleges enum értékek.
@@ -74,7 +82,16 @@ public class FrameController {
 	
 	/**
 	 * E metódus meghívásával van lehetőség a keret beállítására.
+	 * A metódust mindenképp a keret kirajzolása előtt kell meghívni.
 	 * @param s - a felhasználó által megadott 8 karakter hosszúságú String
+	 * Az első karakter a bal felső szegélyt jelzi.
+	 * A második karakter a bal alsó szegélyt.
+	 * A harmadik karakter a jobb alsó szegélyt.
+	 * A negyedik karakter a jobb felső szegélyt.
+	 * Az ötödik karakter a felső oldalt.
+	 * A hatodik karakter a bal oldalt.
+	 * A hetedik karakter az alsó oldalt.
+	 * A nyolcadik karakter a jobb oldalt.
 	 * @return 
 	 * 	<ul>
 	 * 		<li>
@@ -104,13 +121,13 @@ public class FrameController {
 	}
 
 	/**
-	 * Ez a metódus végzi el a felhasználó által megadott string pozicionálását és a keret kirajzolását.
-	 * @param text - egy Text objektum ami tartalmazza a felhasználó által megadott szöveg adatait.
-	 * @return Visszaad egy stringet ami meg van formázva kirajzolásra készen
+	 * A drawFrame() metódus végzi el a kirajzolást. 
+	 * Eredményül egy formázott stringet add vissza.
+	 * @return Visszaad egy stringet ami meg van formázva.
 	 */
-	public static String drawFrame(Text text){
+	public String drawFrame(){
 		StringBuilder tarolo = new StringBuilder();
-		int text_start = FrameController.calculateRowStart(text.getStringHeightSize());
+		int text_start = calculateRowStart(text.getStringHeightSize());
 		for(int i=0;i<height;i++){
 			if(i==0){
 				for(int j=0;j<width;j++){
@@ -141,12 +158,13 @@ public class FrameController {
 			}
 			else if(text_start == i){
 				for(int j=0;j<text.getStringHeightSize();j++){
-					int start_cols = FrameController.calculateColStart(text.getStringWidthSize(text.getNextStringID(j)));					
+					String row = text.getNextRows();
+					int start_cols = calculateColStart(text.getStringWidthSize(row));					
 					tarolo.append(FrameController.bal);
 					for(int k=0;k<FrameController.width-1;k++){
 						if(start_cols == k){
-							tarolo.append(text.getNextStringID(j));
-							k += text.getStringWidthSize(text.getNextStringID(j));
+							tarolo.append(row);
+							k += text.getStringWidthSize(row);
 						}else{
 							tarolo.append(" ");
 						}
@@ -169,7 +187,7 @@ public class FrameController {
 	}
 
 	/**
-	 * Árnyékos keret kirajzolását teszi lehetővé.
+	 * Árnyékos keret kirajzolását teszi lehetővé plusz lehet a szöveg pozicionálását is állítani.
 	 * @param s - a felhasználó által megadott szöveg
 	 * @param height - a keret magassága
 	 * @param width - a keret szélessége
@@ -180,9 +198,8 @@ public class FrameController {
 	 */
 	public static String shieldingFrame(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
 		logger.info("Árnyékos kerettel rajzolás");
-		String newstring = FrameController.frame(s, height, width,vAlignment, hAlignment);
-		Shielding.setCharacter(character);
-		return Shielding.shielding(newstring);
+		FrameController keret = new FrameController(s, height, width,vAlignment, hAlignment,character);
+		return Shielding.shielding(keret.drawFrame());
 	}
 
 	/**
@@ -196,9 +213,8 @@ public class FrameController {
 	 */
 	public static String frame(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment) {
 		logger.info("Szöveg pozicionálásos rajzolás");
-		FrameController.setTextVerticalAlign(vAlignment.name());
-		FrameController.setTextHorizontalAlign(hAlignment.name());
-		return showFrame(s,height,width);
+		FrameController keret = new FrameController(s, height, width, vAlignment, hAlignment);
+		return keret.drawFrame();
 	}
 	
 	/**
@@ -210,11 +226,8 @@ public class FrameController {
 	 */
 	public static String showFrame(String s, int height, int width) {
 		logger.info("Sima rajzolás");
-		FrameController.height = height;
-		FrameController.width = width;
-		Text text = new Text();
-		text.setString(s);
-		return FrameController.drawFrame(text);
+		FrameController keret = new FrameController(s, height, width);
+		return keret.drawFrame();
 	}
 	
 	/**
@@ -230,7 +243,7 @@ public class FrameController {
 	 *    </li>
 	 *  </ul>
 	 */
-	public static boolean isVerticalAlignment(String s){
+	public boolean isVerticalAlignment(String s){
 		try{
 			FrameController.VerticalAlignment.valueOf(s);
 		}catch(Exception e){
@@ -253,7 +266,7 @@ public class FrameController {
 	 *    </li>
 	 *  </ul>
 	 */
-	public static boolean isHorizontalAlignment(String s){
+	public boolean isHorizontalAlignment(String s){
 		try{
 			FrameController.HorizontalAlignment.valueOf(s);
 		}catch(Exception e){
@@ -267,9 +280,9 @@ public class FrameController {
 	 * Beállítja a felhasználó által megadott függőleges poziciót.
 	 * @param s a felhasználó által megadott függőleges pozició	      
 	 */
-	public static void setTextVerticalAlign(String s){
-		if(FrameController.isVerticalAlignment(s)){
-			FrameController.valign = s;
+	public void setTextVerticalAlign(String s){
+		if(isVerticalAlignment(s)){
+			valign = s;
 			logger.info("Sikeres függőleges szöveg pozició beállítás");
 		}
 			
@@ -278,9 +291,9 @@ public class FrameController {
 	 * Beállítja a felhasználó által megadott vízszintes poziciót.
 	 * @param s a felhasználó által megadott vízszintes pozició	      
 	 */
-	public static void setTextHorizontalAlign(String s){
-		if(FrameController.isHorizontalAlignment(s)){
-			FrameController.halign = s;
+	public void setTextHorizontalAlign(String s){
+		if(isHorizontalAlignment(s)){
+			halign = s;
 			logger.info("Sikeres vízszintes szöveg pozició beállítás");
 		}
 			
@@ -293,12 +306,12 @@ public class FrameController {
 	 * a szöveg hosszúsága
 	 * @return az adott sorban hanyadik karakternél kell kezdődnie a szövegnek	      
 	 */
-	public static int calculateColStart(int textWidth){
-		if(FrameController.halign == "CENTER"){
-			return (FrameController.width - textWidth)/2;
+	public int calculateColStart(int textWidth){
+		if(halign == "CENTER"){
+			return (width - textWidth)/2;
 		}
-		if(FrameController.halign =="RIGHT"){
-			return FrameController.width - textWidth-2;
+		if(halign =="RIGHT"){
+			return width - textWidth-2;
 		}
 		return 1;
 	}
@@ -307,14 +320,46 @@ public class FrameController {
 	 * @param textHeight a felhasználó által megadott szöveg magassága
 	 * @return egy int-el tér vissza ami megadja, hogy hanyadik sorban kell elkezdeni kirajzolni a szöveget.     
 	 */
-	public static int calculateRowStart(int textHeight){
+	public int calculateRowStart(int textHeight){
 		
-		if(FrameController.valign == "CENTER"){
-			return (FrameController.height - textHeight)/2;
+		if(valign == "CENTER"){
+			return (height - textHeight)/2;
 		}
-		if(FrameController.valign =="BOTTOM"){
-			return FrameController.height - textHeight-1;
+		if(valign =="BOTTOM"){
+			return height - textHeight-1;
 		}
 		return 1;
+	}
+	
+	FrameController(String s, int height, int width){
+		setHeight(height);
+		setWidth(width);
+		text = new Text(s);
+	}
+	
+	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment){
+		setHeight(height);
+		setWidth(width);
+		text = new Text(s);
+		setTextVerticalAlign(vAlignment.name());
+		setTextHorizontalAlign(hAlignment.name());
+		
+	}
+	
+	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
+		setHeight(height);
+		setWidth(width);
+		text = new Text(s);
+		setTextVerticalAlign(vAlignment.name());
+		setTextHorizontalAlign(hAlignment.name());
+		Shielding.setCharacter(character);
+	}
+	
+	public void setHeight(int height){
+		this.height = height;
+	}
+	
+	public void setWidth(int width){
+		this.width = width;
 	}
 }

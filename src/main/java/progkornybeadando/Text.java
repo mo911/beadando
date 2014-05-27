@@ -21,6 +21,8 @@ public class Text {
 	 */
 	protected ArrayList<String> splitSzoveg;
 	
+	protected int rows_id = 0;
+	
 	/**
 	 * Beállítja az adott példányban a szöveget.
 	 * @param s a felhasználó által megadott string
@@ -28,6 +30,11 @@ public class Text {
 	public void setString(String s){
 		this.szoveg = s;
 	}
+	
+	Text(String s){
+		this.szoveg = s;
+	}
+	
 	
 	/**
 	 * Visszaadja a felhasználó által megadott szöveget.
@@ -42,17 +49,22 @@ public class Text {
 	 * @param id string key
 	 * @return visszatér egy stringel amiből el van távolítva a felesleges szóközök
 	 */
-	public String getNextStringID(int id){
+	private String getNextStringID(int id){
 		this.getSplitSzoveg();
 		return splitSzoveg.get(id).trim();
 	}
 	
+	public String getNextRows(){
+		String res = this.getNextStringID(rows_id);
+		this.rows_id++;
+		return res;
+	}
 	/**
 	 * Visszaadja a feldarabolt szöveget. Ha a szöveg még nem volt feldarabolva, akkor
 	 * feldarabolja a szöveget.
 	 * @return visszatér a feldarabolt stringel.
 	 */
-	public ArrayList<String> getSplitSzoveg(){
+	private ArrayList<String> getSplitSzoveg(){
 		if(splitSzoveg == null){
 			this.splitText();
 		}
