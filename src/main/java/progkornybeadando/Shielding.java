@@ -29,7 +29,7 @@ public class Shielding {
 			tarolo.append(i+Shielding.character+"\n");
 		}
 		for(int i=0;i<2;i++){
-			for(int j=0;j<width;j++)
+			for(int j=0;j<width-i;j++)
 				tarolo.append(Shielding.character);
 			tarolo.append("\n");
 		}

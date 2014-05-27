@@ -259,7 +259,7 @@ public class FrameController {
 	 *    </li>
 	 *  </ul>
 	 */
-	public boolean isVerticalAlignment(String s){
+	protected boolean isVerticalAlignment(String s){
 		try{
 			FrameController.VerticalAlignment.valueOf(s);
 		}catch(Exception e){
@@ -282,7 +282,7 @@ public class FrameController {
 	 *    </li>
 	 *  </ul>
 	 */
-	public boolean isHorizontalAlignment(String s){
+	protected boolean isHorizontalAlignment(String s){
 		try{
 			FrameController.HorizontalAlignment.valueOf(s);
 		}catch(Exception e){
@@ -371,11 +371,11 @@ public class FrameController {
 		Shielding.setCharacter(character);
 	}
 	
-	public void setHeight(int height){
+	protected void setHeight(int height){
 		this.height = height;
 	}
 	
-	public void setWidth(int width){
+	protected void setWidth(int width){
 		this.width = width;
 	}
 	
@@ -396,14 +396,14 @@ public class FrameController {
 	 * Visszaadja a string feldarabolt magasságát.
 	 * @return a feldrabolt string magassága
 	 */
-	public int getStringHeightSize(){
+	protected int getStringHeightSize(){
 		return splitText().size();
 	}
 	/**
 	 * Megkapjuk a következő sorát a szövegnek.
 	 * @return
 	 */
-	private String getNextRows(){
+	protected String getNextRows(){
 		if(splitSzoveg == null){
 			this.splitText();
 		}
