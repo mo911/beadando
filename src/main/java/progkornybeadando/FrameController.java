@@ -2,27 +2,74 @@ package progkornybeadando;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * Ez az osztály végzi el a szöveg pozicionálását és a kerethez tartozó egyébb 
+ * műveleteket.
+ * @author Ádám
+ *
+ */
 public class FrameController {
+	/**
+	 * Alapértelmezett függőleges pozicionálás.
+	 */
 	static String valign = "CENTER";
+	/**
+	 * Alapértelmezett vízszintes pozicionálás.
+	 */
 	static String halign = "CENTER";
+	/**
+	 * Keret magassága.
+	 */
 	static int height;
+	/**
+	 * Keret szélessége.
+	 */
 	static int width;
+	/**
+	 * Alapértelmezett keret jelölő értékek.
+	 * Balról jobbra: bal felső sarok, bal alsó sarok, jobb alsó sarok, jobb felső sarok
+	 * bal oldal, jobb oldal, felso oldal és alsó oldal.
+	 */
 	static char jfs = '+',jls = '+',bfs = '+',bls = '+',bal = '|',jobb = '|',felso = '-',also = '-';
+	/**
+	 * A logger példányosítása. 
+	 */
 	private static Logger logger = LoggerFactory.getLogger(FrameController.class);
 	
 	/**
-	 * Függőleges enum értékek
+	 * Függőleges enum értékek.
 	 */
 	public static enum VerticalAlignment {
-        TOP, CENTER, BOTTOM;
+		/**
+		 * A keret tetejére igazítás.
+		 */
+        TOP,
+        /**
+         * A keret közepére igazítás.
+         */
+        CENTER,
+        /**
+         * A keret alsó részéhez való igazítás.
+         */
+        BOTTOM;
     }
 	
 	/**
-	 * Vízszintes enum értékek
+	 * Vízszintes enum értékek.
 	 */
 	public static enum HorizontalAlignment {
-        LEFT, CENTER, RIGHT;
+		/**
+		 * A kerethez vízszintes baloldalra igazítás.
+		 */
+        LEFT,
+        /**
+         * A kerethez vízszintes középre igazítás.
+         */
+        CENTER,
+        /**
+         * A kerethez vízszintes jobbra igazítás.
+         */
+        RIGHT;
     }
 	
 	/**
@@ -122,7 +169,7 @@ public class FrameController {
 	}
 
 	/**
-	 * Árnyékos keret kirajzolását teszi lehetővé
+	 * Árnyékos keret kirajzolását teszi lehetővé.
 	 * @param s - a felhasználó által megadott szöveg
 	 * @param height - a keret magassága
 	 * @param width - a keret szélessége
@@ -139,7 +186,7 @@ public class FrameController {
 	}
 
 	/**
-	 * Kirajzolja a keretet szövegpozicionálással
+	 * Kirajzolja a keretet szövegpozicionálással.
 	 * @param s - a felhasználó által megadott szöveg
 	 * @param height - keret magassága
 	 * @param width - keret szélessége 
@@ -171,7 +218,7 @@ public class FrameController {
 	}
 	
 	/**
-	 * Leelenőrzi, hogy a megadott függőleges pozició helyes-e
+	 * Leelenőrzi, hogy a megadott függőleges pozició helyes-e.
 	 * @param s a felhasználó által megadott függőleges pozició	      
 	 * @return 
 	 * 	<ul>
@@ -194,7 +241,7 @@ public class FrameController {
 	}
 	
 	/**
-	 * Leelenőrzi, hogy a megadott vízszintes pozició helyes-e
+	 * Leelenőrzi, hogy a megadott vízszintes pozició helyes-e.
 	 * @param s a felhasználó által megadott vízszintes pozició	      
 	 * @return 
 	 * 	<ul>
@@ -217,7 +264,7 @@ public class FrameController {
 	}
 	
 	/**
-	 * Beállítja a felhasználó által megadott függőleges poziciót
+	 * Beállítja a felhasználó által megadott függőleges poziciót.
 	 * @param s a felhasználó által megadott függőleges pozició	      
 	 */
 	public static void setTextVerticalAlign(String s){
@@ -228,7 +275,7 @@ public class FrameController {
 			
 	}
 	/**
-	 * Beállítja a felhasználó által megadott vízszintes poziciót
+	 * Beállítja a felhasználó által megadott vízszintes poziciót.
 	 * @param s a felhasználó által megadott vízszintes pozició	      
 	 */
 	public static void setTextHorizontalAlign(String s){

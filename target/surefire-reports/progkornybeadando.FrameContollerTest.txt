@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: progkornybeadando.FrameContollerTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.821 sec <<< FAILURE!
-testCalculateRows1(progkornybeadando.FrameContollerTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.644 sec <<< FAILURE!
+testCalculateRows1(progkornybeadando.FrameContollerTest)  Time elapsed: 0.005 sec  <<< FAILURE!
 java.lang.AssertionError: expected:<4> but was:<1>
 	at org.junit.Assert.fail(Assert.java:93)
 	at org.junit.Assert.failNotEquals(Assert.java:647)

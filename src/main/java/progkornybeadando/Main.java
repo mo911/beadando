@@ -1,7 +1,12 @@
 package progkornybeadando;
-
+/**
+ * Ez az osztály fogja a program működését elindítani.
+ */
 public class Main {
-
+	/**
+	 * A program belépési pontja.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		//FrameController.setTextHorizontalAlign("LEFT");
 		//FrameController.setTextVerticalAlign("BOTTOM");

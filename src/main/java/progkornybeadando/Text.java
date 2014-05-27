@@ -1,10 +1,24 @@
 package progkornybeadando;
 
 import java.util.ArrayList;
-
+/**
+ * Ennek az osztálynak a segítségével tudjuk a szöveget kiiratni. 
+ * Feldarabolja a szövegetés meghatározza ,hogy melyik a következő elem.
+ * @author Ádám
+ *
+ */
 public class Text {
+	/**
+	 * A beállítandó szöveg.
+	 */
 	protected String szoveg = null;
+	/**
+	 * Ez az attribútum tartalmazza, hogy melyik a következő elem.
+	 */
 	protected int next = 0;
+	/**
+	 * A feldarabolt szöveget tartalmazza.
+	 */
 	protected ArrayList<String> splitSzoveg;
 	
 	/**
@@ -16,7 +30,7 @@ public class Text {
 	}
 	
 	/**
-	 * Visszaadja a felhasználó által megadott szöveget
+	 * Visszaadja a felhasználó által megadott szöveget.
 	 * @return string a felhasználó által megadott szöveg
 	 */
 	public String getString(){
@@ -24,7 +38,7 @@ public class Text {
 	}
 	
 	/**
-	 * Visszaadja a következő id- string értéket
+	 * Visszaadja a következő id- string értéket.
 	 * @param id string key
 	 * @return visszatér egy stringel amiből el van távolítva a felesleges szóközök
 	 */

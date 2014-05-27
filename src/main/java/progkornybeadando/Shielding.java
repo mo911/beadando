@@ -1,10 +1,18 @@
 package progkornybeadando;
-
+/**
+ * Beállítja a keretre az árnyékolást.
+ * Constructorban át kell adni egy Text objektumot, amire majd az árnyékolás kerülni fog.
+ * @author Ádám
+ *
+ */
 public class Shielding {
+	/**
+	 * Alapértelmezett árnyékoló karakter.
+	 */
 	static char character = '#';
 	
 	/**
-	 * Beállítja a keretre az árnyékot
+	 * Beállítja a keretre az árnyékot.
 	 * @param s a formázott keret szöveggel együtt.
 	 * @return a megkapott formázott string + az árnyék hozzá.
 	 */
@@ -36,7 +44,7 @@ public class Shielding {
 		return Shielding.character;
 	}
 	/**
-	 * Beállítja az árnyékoló karaktert
+	 * Beállítja az árnyékoló karaktert.
 	 * @param c a felhasználó által megadott árnyékoló karakter.
 	 */
 	static void setCharacter(char c){
