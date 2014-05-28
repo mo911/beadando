@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
- * Ez az osztály a megadott Stringgel különbőző módokon végez műveletet.
+ * Ez az osztály a megadott Stringgel különbőző módokon hajt végre formázási műveleteket.
  * Három statikus metódus van:
  * <ul>
  *   <li>1.) showFrame(...)</li>
@@ -36,23 +36,22 @@ public class FrameController {
 	/**
 	 * A megkapott szöveg függőleges pozicióját határozza meg a keretben.
 	 */
-	private String valign = "CENTER";
+	protected String valign = "CENTER";
 	/**
 	 * A megkapott szöveg vízszintes pozicióját határozza meg a keretben.
 	 */
-	private String halign = "CENTER";
+	protected String halign = "CENTER";
 	/**
-	 * Keret magassága.
+	 * Keret magassága karakterben.
 	 */
 	protected int height;
 	/**
-	 * Keret szélessége.
+	 * Keret szélessége karakterben.
 	 */
 	protected int width;
 	/**
-	 * Alapértelmezett keret jelölő értékek.
-	 * Balról jobbra: bal felső sarok, bal alsó sarok, jobb alsó sarok, jobb felső sarok
-	 * bal oldal, jobb oldal, felso oldal és alsó oldal.
+	 * Keretet alkotó karakterek balról jobbra: bal felső sarok, bal alsó sarok, jobb alsó sarok,
+	 * jobb felső sarok, felső oldal, bal oldal, also oldal és jobb oldal.
 	 */
 	static char jfs = '+',jls = '+',bfs = '+',bls = '+',bal = '|',jobb = '|',felso = '-',also = '-';
 	/**
@@ -61,7 +60,7 @@ public class FrameController {
 	private static Logger logger = LoggerFactory.getLogger(FrameController.class);
 	
 	/**
-	 * Függőleges enum értékek.
+	 * Függőleges szöveg pozicionáló enum értékek.
 	 */
 	public static enum VerticalAlignment {
 		/**
@@ -79,7 +78,7 @@ public class FrameController {
     }
 	
 	/**
-	 * Vízszintes enum értékek.
+	 * Vízszintes szöveg pozicionáló enum értékek.
 	 */
 	public static enum HorizontalAlignment {
 		/**
@@ -97,7 +96,7 @@ public class FrameController {
     }
 	
 	/**
-	 * E metódus meghívásával van lehetőség a keret beállítására.
+	 * E metódus meghívásával van lehetőség a keret karaktereinek megváltoztatására.
 	 * A metódust mindenképp a keret kirajzolása előtt kell meghívni.
 	 * @param s - a felhasználó által megadott 8 karakter hosszúságú String
 	 * Az első karakter a bal felső szegélyt jelzi.
@@ -138,7 +137,7 @@ public class FrameController {
 
 	/**
 	 * A drawFrame() metódus végzi el a kirajzolást. 
-	 * Eredményül egy formázott stringet add vissza.
+	 * Ezt meghívva a beállított szöveget megformázza.
 	 * @return Visszaad egy stringet ami meg van formázva.
 	 */
 	protected String drawFrame(){
@@ -203,14 +202,15 @@ public class FrameController {
 	}
 
 	/**
-	 * Árnyékos keret kirajzolását teszi lehetővé plusz lehet a szöveg pozicionálását is állítani.
+	 * Árnyékos keret kirajzolását teszi lehetővé az általunk megadott karakterrel. 
+	 * Szöveg pozicionálását is lehet állítani.
 	 * @param s - a felhasználó által megadott szöveg
 	 * @param height - a keret magassága
 	 * @param width - a keret szélessége
 	 * @param vAlignment - a szöveg függőleges pozicionálása
 	 * @param hAlignment - a szöveg vízszintes pozicionálása
 	 * @param character - a felhasználó által megadott árnyék kerete
-	 * @return visszatér a formázott kerettel és benne a szöveggel + egy kis árnyékkal
+	 * @return visszatér a formázott stringgel.
 	 */
 	public static String shieldingFrame(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
 		logger.info("Árnyékos kerettel rajzolás");
@@ -225,7 +225,7 @@ public class FrameController {
 	 * @param width - keret szélessége 
 	 * @param vAlignment - függőleges szöveg pozició
 	 * @param hAlignment - vízszintes pozició
-	 * @return Visszatér a formázott kerettel és benne a szöveggel.
+	 * @return Visszatér a formázott kerettel és benne a pozicionált szöveggel.
 	 */
 	public static String frame(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment) {
 		logger.info("Szöveg pozicionálásos rajzolás");
@@ -347,12 +347,26 @@ public class FrameController {
 		return 1;
 	}
 	
+	/**
+	 * FrameController osztály konstruktora.
+	 * @param s a megadott szöveg, amit formázni kell.
+	 * @param height a létrehozandó keret magassága.
+	 * @param width a létrehozandó keret szélessége.
+	 */
 	FrameController(String s, int height, int width){
 		setHeight(height);
 		setWidth(width);
 		szoveg = s;
 	}
 	
+	/**
+	 * FrameController osztály konstruktora.
+	 * @param s a megadott szöveg, amit formázni kell.
+	 * @param height a létrehozandó keret magassága.
+	 * @param width a létrehozandó keret szélessége.
+	 * @param vAlignment a szöveg függőleges poziciója a keretben.
+	 * @param hAlignment a szöveg vízszintes poziciója a keretben.
+	 */
 	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment){
 		setHeight(height);
 		setWidth(width);
@@ -362,6 +376,15 @@ public class FrameController {
 		
 	}
 	
+	/**
+	 * FrameController osztály konstruktora.
+	 * @param s a megadott szöveg, amit formázni kell.
+	 * @param height a létrehozandó keret magassága.
+	 * @param width a létrehozandó keret szélessége.
+	 * @param vAlignment a szöveg függőleges poziciója a keretben.
+	 * @param hAlignment a szöveg vízszintes poziciója a keretben.
+	 * @param character a keret árnyékoló karakter.
+	 */
 	FrameController(String s, int height, int width,VerticalAlignment vAlignment, HorizontalAlignment hAlignment,char character){
 		setHeight(height);
 		setWidth(width);
@@ -380,7 +403,8 @@ public class FrameController {
 	}
 	
 	/**
-	 * Feldarabolja a felhasználó által megadott stringet.
+	 * A felhasználó álltal megadott szöveget a \n karaktereknél feldarabolja.
+	 * Ezt egy ArrayList-ben tároljuk.
 	 * @return visszatér egy ArrayListel amiben a feldarabolt szöveg szerepel.
 	 */
 	protected ArrayList<String> splitText(){
@@ -393,15 +417,16 @@ public class FrameController {
 	}
 	
 	/**
-	 * Visszaadja a string feldarabolt magasságát.
-	 * @return a feldrabolt string magassága
+	 * Visszaadja a splitText() által feldarabolt szöveg magasságát.
+	 * @return a feldrabolt szöveg magassága
 	 */
 	protected int getStringHeightSize(){
 		return splitText().size();
 	}
 	/**
-	 * Megkapjuk a következő sorát a szövegnek.
-	 * @return
+	 * getNextRows metódus meghívásával, megkapjuk folyamatosan a splitText()-el feldarabolt szöveg következő
+	 * sorát. 
+	 * @return az aktuális sor szövegével tér vissza.
 	 */
 	protected String getNextRows(){
 		if(splitSzoveg == null){

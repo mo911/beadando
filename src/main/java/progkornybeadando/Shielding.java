@@ -3,8 +3,7 @@ package progkornybeadando;
 import java.util.ArrayList;
 
 /**
- * Beállítja a keretre az árnyékolást.
- * A statikus shielding metódusát meghívva elvégzi a megadott stringen az árnyékolást.
+ * A statikus shielding() metódus meghívásával elvégzi a megadott stringen az árnyékolást.
  * @author Ádám
  *
  */
@@ -13,7 +12,7 @@ public class Shielding {
 	protected ArrayList<String> splitSzoveg;
 	
 	/**
-	 * Alapértelmezett árnyékoló karakter.
+	 * Az alapértelmezett árnyékoló karakter.
 	 */
 	static char character = '#';
 	
@@ -37,7 +36,7 @@ public class Shielding {
 	}
 	/**
 	 * Beállítja az árnyékoló karaktert.
-	 * Ezt a metódust a shielding előtt kell meghívni.
+	 * Ezt a metódust a shielding() metódus előtt kell meghívni.
 	 * @param c a felhasználó által megadott árnyékoló karakter.
 	 */
 	static void setCharacter(char c){

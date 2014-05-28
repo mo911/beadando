@@ -156,6 +156,7 @@ public class FrameContollerTest {
 		assertEquals(s, FrameController.shieldingFrame(szoveg, 10, 30,VerticalAlignment.TOP,HorizontalAlignment.LEFT,'$'));
 	}
 	
+	@Test
 	public void testKeretDraw6(){
 		String s = "+----------------------------+\n"
 				  +"|                            |\n"
@@ -167,9 +168,24 @@ public class FrameContollerTest {
 				  +"|                            |\n"
 				  +"|                            |\n"
 				  +"+----------------------------+\n";
-		String szoveg = "Ez itt a szoveg\n ez meg egy új sor\nez meg egy újabb \n de mostmár elég";
 		assertEquals(s, FrameController.showFrame("Ez itt a szoveg\n ez meg egy új sor\nez meg egy újabb \n de mostmár elég",10,30));
 	}
-
-
+	
+	@Test
+	public void testKeretDraw7(){
+		String s = "/aaaaaaaaaaaaaaaaaaaaaaaaaaaa-\n"
+				  +"b                            d\n"
+				  +"b                            d\n"
+				  +"b       Ez itt a szoveg      d\n"
+				  +"b      ez meg egy új sor     d\n"
+				  +"b       ez meg egy újabb     d\n"
+				  +"b       de mostmár elég      d\n"
+				  +"b                            d\n"
+				  +"b                            d\n"
+				  +"*cccccccccccccccccccccccccccc+\n";
+		String szoveg = "Ez itt a szoveg\n ez meg egy új sor\nez meg egy újabb \n de mostmár elég";
+		String keret = "/*+-abcd";
+		FrameController.setKeret(keret);
+		assertEquals(s, FrameController.showFrame(szoveg, 10, 30));
+	}
 }
