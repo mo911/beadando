@@ -3,7 +3,7 @@ package progkornybeadando;
 import java.util.ArrayList;
 
 /**
- * Az osztály a megkapott Stringre rárakja az árnyékolást.
+ * Az osztály a megkapott Stringhez hozzáfűzi az árnyékolást.
  * A statikus shielding() metódus meghívásával végzi el a feladatot.
  * @author Ádám
  *
