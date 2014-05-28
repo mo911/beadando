@@ -3,7 +3,8 @@ package progkornybeadando;
 import java.util.ArrayList;
 
 /**
- * A statikus shielding() metódus meghívásával elvégzi a megadott stringen az árnyékolást.
+ * Az osztály a megkapott Stringre rárakja az árnyékolást.
+ * A statikus shielding() metódus meghívásával végzi el a feladatot.
  * @author Ádám
  *
  */
@@ -18,8 +19,8 @@ public class Shielding {
 	
 	/**
 	 * Beállítja a megkapott stringre az árnyékolást.
-	 * @param s egy String amire rá szeretnénk tenni az árnyékolást
-	 * @return Visszatér a paraméterben megkapott stringel és a hozzá fűzött árnyékolással.
+	 * @param s egy String amire rá szeretnénk tenni az árnyékolást.
+	 * @return Visszatér a paraméterben megkapott stringel és a hozzá beállított árnyékolással.
 	 */
 	public static String shielding(String s,int width){
 		StringBuilder tarolo = new StringBuilder();
